@@ -14,6 +14,16 @@ def tasks_list(request):
     # recuperar todas las tareas de la base de datos
     tasks = Task.objects.select_related("owner", "assignee").all()
 
+    # comprobamos si se debe filtrar por las tareas creadas por el user autenticado
+
+    if request.GET.get('filter') == 'owned':
+        tasks = tasks.filter(owner=request.user)
+
+    # comprobamos si se debe filtrar por las tareas asignadas al user autenticado
+
+    if request.GET.get('filter') == 'assigned':
+        tasks = tasks.filter(assignee=request.user)
+
     # devolver la respuesta
     context = {
         'task_objects': tasks
