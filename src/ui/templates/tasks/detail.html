@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Todoro</title>
+</head>
+<body>
+    <h1>{{ task.name}}</h1>
+    <p>{{ task.description}}</p>
+    <ul>
+        <li>
+            <strong>Owner:</strong>
+            {{ task.owner.first_name}} {{ task.owner.last_name}}
+        </li>
+        <li>
+            <strong>Assignee:</strong>
+            {% if task.assignee %}
+                {{ task.assignee.first_name }} {{ task.assignee.last_name }}
+            {% else %}
+                Unassigned
+            {% endif %}
+        </li>
+        <li>
+            <strong>Estimated:</strong>
+            {% if task.estimated %}
+                {{task.time_estimated}}
+            {% else %}
+                No time set.
+            {% endif %}
+        </li>
+        <li>
+            <strong>Status:</strong>
+            {{ task.get_status_display }}
+        </li>
+        <li>
+            <strong>Deadline:</strong>
+            {% if task.deadline %}
+                {{ task.deadline}}
+            {% else %}
+                No deadline set
+            {% endif %}
+        </li>
+    </ul>
+
+</body>
+</html>
