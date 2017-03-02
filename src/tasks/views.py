@@ -32,7 +32,7 @@ def tasks_detail(request, task_pk):
     try:
         task = Task.objects.get(pk=task_pk)
     except Task.DoesNotExist:
-        return HttpResponseNotFound("La tarea que buscas no existe.") # error 404 de django
+        return render(request, '404.html', {}, status=404) # error 404 de django
     except Task.MultipleChoices:
         return HttpResponse("Existen varias tareas con ese identificador", status=300)
 
