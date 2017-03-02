@@ -30,7 +30,7 @@ def tasks_detail(request, task_pk):
     # recuperar la tarea
 
     try:
-        task = Task.objects.get(pk=task_pk)
+        task = Task.objects.select_related().get(pk=task_pk)
     except Task.DoesNotExist:
         return render(request, '404.html', {}, status=404) # error 404 de django
     except Task.MultipleChoices:
