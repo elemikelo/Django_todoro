@@ -18,7 +18,11 @@
         <tbody>
             {% for task in task_objects %}
                 <tr>
-                    <td>{{ task.name }}</td>
+                    <td>
+                        <a href="{% url 'tasks_detail' task.pk %}" title="View {{ task.name }}">
+                            {{ task.name }}
+                        </a>
+                    </td>
                     <td>{{ task.owner.first_name }} {{ task.owner.last_name }}</td>
                     <td>
                         {% if task.assignee %}
