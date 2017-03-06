@@ -2,6 +2,8 @@ from django.contrib.auth import authenticate, login as django_login, logout as d
 from django.shortcuts import render, redirect
 from django.views import View
 
+from users.form import LoginForm
+
 
 class LoginView(View):
 
@@ -11,26 +13,30 @@ class LoginView(View):
         :param request: HttpRequest
         :return: HttpResponse
         """
-        return render(request, 'login.html')
+        context = {
+            'form' : LoginForm()
+        }
+        return render(request, 'login.html', context)
 
     def post(self, request):
-
+            form = LoginForm(request.POST)
             context = dict()
-            username = request.POST.get('usr')
-            password = request.POST.get('pwd')
-            user = authenticate(username=username, password=password)
-            if user is not None:
+            if form.is_valid():
+                username = request.cleaned_data.get('username')
+                password = request.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+                if user is not None:
 
-                # usuario autenticado
-                request.sesion["default-language"] = "es"
-                django_login(request, user)
-                url = request.GET.get('next', 'task_list')
-                return redirect(url)
+                    # usuario autenticado
+                    request.sesion["default-language"] = "es"
+                    django_login(request, user)
+                    url = request.GET.get('next', 'task_list')
+                    return redirect(url)
 
-            else:
-                # usuario no autenticado
-                context["error"] = "Wrong username or password"
-
+                else:
+                    # usuario no autenticado
+                    context["error"] = "Wrong username or password"
+            context["form"] = form
             return render(request, 'login.html', context)
 
 def logout(request):
