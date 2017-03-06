@@ -5,7 +5,7 @@
     <h2>Login</h2>
 <div style="color:red">{{ error }}</div>
 
-<form action="{% url 'login' %}" method="post">
+<form  method="post">
     {% csrf_token %}
     <div>
         <strong>Username: </strong>

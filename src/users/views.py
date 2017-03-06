@@ -14,9 +14,13 @@ def login(request):
         password = request.POST.get('pwd')
         user = authenticate(username=username, password=password)
         if user is not None:
-            django_login(request, user)
+
             # usuario autenticado
+            request.sesion["default-language"] = "es"
+            django_login(request, user)
+            url = request.GET.get('next', 'task_list')
             return redirect('tasks_list')
+
         else:
             # usuario no autenticado
             context["error"] = "Wrong username or password"
