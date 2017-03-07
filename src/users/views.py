@@ -22,13 +22,13 @@ class LoginView(View):
             form = LoginForm(request.POST)
             context = dict()
             if form.is_valid():
-                username = request.cleaned_data.get('username')
-                password = request.cleaned_data.get('password')
+                username = form.cleaned_data.get('username')
+                password = form.cleaned_data.get('password')
                 user = authenticate(username=username, password=password)
-                if user is not None:
 
+                if user is not None:
                     # usuario autenticado
-                    request.sesion["default-language"] = "es"
+                    request.session["default-language"] = "es"
                     django_login(request, user)
                     url = request.GET.get('next', 'task_list')
                     return redirect(url)
