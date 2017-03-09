@@ -24,3 +24,4 @@ class Task(models.Model):
     def __str__(self):
         return self.name # para que salga el nombre de la tarea, como toString()
 
+
