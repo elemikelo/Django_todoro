@@ -17,6 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 
 from tasks.views import tasks_list, tasks_detail, NewTaskView
+from users.api import UsersAPI
 from users.views import logout, LoginView
 
 urlpatterns = [
@@ -26,4 +27,8 @@ urlpatterns = [
     url(r'^tasks/new$', NewTaskView.as_view(), name="tasks_new"),
     url(r'^login', LoginView.as_view(), name="login"),
     url(r'^login', logout, name="logout"),
+
+    # API
+    url(r'^api/1.0/users/$', UsersAPI.as_view(), name="users_api"),
+
 ]
