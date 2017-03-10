@@ -1,7 +1,7 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 from tasks.models import Task
-from tasks.serializers import TaskSerializer
+from tasks.serializers import TaskSerializer, TasksListSerializer
 
 
 class TasksAPI(ListCreateAPIView):
@@ -12,6 +12,11 @@ class TasksAPI(ListCreateAPIView):
     """
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
+
+    def get_serializer_class(self):
+        return TasksListSerializer if self.request.method == "GET" else TaskSerializer
+
+
 
 class TaskDetailAPI(RetrieveUpdateDestroyAPIView):
     """
