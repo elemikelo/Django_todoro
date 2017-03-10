@@ -2,6 +2,9 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
+class UsersListSerializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
+    username = serializers.CharField()
 
 class UserSerializer(serializers.Serializer):
 
