@@ -100,4 +100,3 @@ class NewTaskView(View):
             "message": message
         }
         return render(request, 'tasks/new.html', context)
-

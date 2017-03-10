@@ -2,17 +2,16 @@
 
 {% block content %}
 
-    <h2>Login</h2>
+<h2>Login</h2>
+
 <div style="color:red">{{ error }}</div>
 
-<form  method="post" novalidate>
+<form method="post" novalidate>
     {% csrf_token %}
-
-    {{form.as_p}}
-
+    {{ form.as_p }}
+    <div>
         <button>Login</button>
     </div>
-
 </form>
 
 {% endblock %}
