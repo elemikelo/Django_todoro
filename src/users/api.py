@@ -1,7 +1,7 @@
 import json
 
 from django.contrib.auth.models import User
-from rest_framework.generics import get_object_or_404
+from rest_framework.generics import get_object_or_404, GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -9,7 +9,7 @@ from users.serializers import UserSerializer, UsersListSerializer
 from rest_framework import status
 
 
-class UsersAPI(APIView):
+class UsersAPI(GenericAPIView):
     """
     List (GET) and creates (POST) users
     """
@@ -22,8 +22,9 @@ class UsersAPI(APIView):
         :return:  HttpResponse
         """
         users = User.objects.all().values("id", "username")
-        serializer = UsersListSerializer(users, many=True)
-        return Response(serializer.data)
+        page = self.paginate_queryset(users)
+        serializer = UsersListSerializer(page, many=True)
+        return self.get_paginated_response(serializer.data)
 
     def post(self, request):
         """
