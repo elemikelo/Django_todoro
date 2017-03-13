@@ -16,6 +16,9 @@ class TasksAPI(ListCreateAPIView):
     def get_serializer_class(self):
         return TasksListSerializer if self.request.method == "GET" else TaskSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
 
 class TaskDetailAPI(RetrieveUpdateDestroyAPIView):
     """
