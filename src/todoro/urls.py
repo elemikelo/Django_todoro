@@ -13,13 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework.routers import DefaultRouter
 
 from tasks.api import TasksAPI, TaskDetailAPI
 from tasks.views import tasks_list, tasks_detail, NewTaskView
-from users.api import UsersAPI, UserDetailAPI
+from users.api import UserViewSet
 from users.views import logout, LoginView
+
+router = DefaultRouter()
+router.register("users", UserViewSet, base_name="users_api")
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -30,11 +35,17 @@ urlpatterns = [
     url(r'^logout$', logout, name="logout"),
 
     # API Users
-    url(r'^api/1.0/users/$', UsersAPI.as_view(), name="users_api"),
-    url(r'^api/1.0/users/(?P<pk>[0-9]+)$', UserDetailAPI.as_view(), name="user_detail_api"),
+
+    url(r'^api/1.0/', include(router.urls)),
 
     # API Task
     url(r'^api/1.0/tasks/$', TasksAPI.as_view(), name="tasks_api"),
     url(r'^api/1.0/tasks/(?P<pk>[0-9]+)?$', TaskDetailAPI.as_view(), name="tasks_detail_api"),
 
 ]
+
+"""
+ # API Users
+  url(r'^api/1.0/users/$', UsersAPI.as_view(), name="users_api"),
+  url(r'^api/1.0/users/(?P<pk>[0-9]+)$', UserDetailAPI.as_view(), name="user_detail_api"),
+  """
